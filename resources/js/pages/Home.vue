@@ -25,11 +25,14 @@
     <div class="mb-4">
         <el-pagination
             v-model:current-page="currentPage"
+            v-model:page-size="pageSize"
+            :page-sizes="[5, 10]"
             :disabled="disabled"
             :background="background"
-            layout=" prev, pager, next"
+            layout="sizes, prev, pager, next"
             :total="totalCount"
             @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
         />
     </div>
         <div class="row row-cols-1 row-cols-8 g-4">
@@ -88,6 +91,7 @@
     const formRef = ref();
     const background = ref(true);
     const disabled = ref(paginatorActivity);
+    const pageSize = ref(5);
     const dialogTableVisible = ref(false)
     const queryValidateForm = reactive({
         query: '',
@@ -118,6 +122,11 @@
     }
     const handleCurrentBook = (id) => {
         booksStore.getBookById(id);
+    }
+    const handleSizeChange = (page) => {
+        pageSize.value = page;
+        booksStore.updatePageSize(page);
+
     }
     onMounted( async () => {
         booksStore.getBooks();

@@ -18,7 +18,7 @@ class BooksController
     public function index(Request $request)
     {
         if (!$request->query('search')){
-            return response()->json(Book::with('writers')->orderBy('id','desc')->paginate(5));
+            return response()->json(Book::with('writers')->orderBy('id','desc')->paginate($request->size??5));
         }
         $q = $request->query('search');
         $searchResult = $this->users = Book::query()->whereHas('writers', function ($query) use ($q)
@@ -27,7 +27,7 @@ class BooksController
         })
             ->with('writers')
             ->orWhere('title','LIKE','%'. $q .'%')
-            ->paginate(5)->toArray();
+            ->paginate($request->size??5)->toArray();
         return response()->json($searchResult);
     }
 

@@ -13,6 +13,7 @@ export const useBooksStore = defineStore('BooksStore',() => {
     const totalCount = ref(0);
     const state = ref({
         page: 1,
+        size: 5,
     });
     const currentPage = ref(state.value.page);
     const initialBook = {
@@ -52,6 +53,7 @@ export const useBooksStore = defineStore('BooksStore',() => {
         try {
             axios.get('/api/books/'
                 +'?page=' + state.value.page
+                +'&size=' + state.value.size
                 +'&search=' + searchQuery.value
             ).then((response) => {
                 books.value = response.data;
@@ -119,6 +121,9 @@ export const useBooksStore = defineStore('BooksStore',() => {
     const updateCurrentPage = (page) => {
         state.value.page = page;
     }
+    const updatePageSize = (size) => {
+        state.value.size = size;
+    }
     const popupMessage = (message) => {
         ElMessage({
             type: 'success',
@@ -137,6 +142,7 @@ export const useBooksStore = defineStore('BooksStore',() => {
         removeBook,
         updateSearchQuery,
         updateCurrentPage,
+        updatePageSize,
         getBooks,
         addBook,
         getBookById,
