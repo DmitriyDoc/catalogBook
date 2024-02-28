@@ -8,9 +8,11 @@ use App\Models\Book;
 use App\Models\BookCategory;
 use App\Models\BookWriter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use function App\Helpers\transaction;
+use function Nette\Utils\first;
 use function Symfony\Component\Mime\Header\all;
 
 class BooksController
@@ -105,9 +107,12 @@ class BooksController
         }
         $bookId = $data->getData();
         transaction( function () use ($bookId){
-            Book::where('id',$bookId['id'])->delete();
+            $book = Book::where('id',$bookId['id']);
+            $cover = $book->first()->cover;
+            $book->delete();
             BookWriter::where('books_id',$bookId['id'])->delete();
             BookCategory::where('books_id',$bookId['id'])->delete();
+            Storage::disk('public')->delete('images/'.ltrim($cover,'/storage/images/'));
         });
         return response()->json(['success'=>'Удаление прошло успешно!']);
     }
