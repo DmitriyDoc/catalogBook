@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted } from "vue";
+    import { ref, reactive, onMounted, onUpdated } from "vue";
     import { RouterLink } from 'vue-router'
     import { storeToRefs } from 'pinia';
     import { useBooksStore } from "../store/booksStore";
@@ -131,6 +131,9 @@
     onMounted( async () => {
         booksStore.getBooks();
     });
+    // onUpdated( async () => {
+    //     booksStore.getBooks();
+    // });
 </script>
 
 <style scoped>

@@ -32,7 +32,7 @@
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div style="flex-grow: 1;display: flex; flex-direction: column;">
-                    <button @click="logout()" type="button" class="btn btn-danger">Выйти</button>
+                    <button @click.prevent="logout()" type="button" class="btn btn-danger">Выйти</button>
                 </div>
             </li>
         </ul>
@@ -42,17 +42,22 @@
 <script setup>
     import {ref} from "@vue/reactivity";
     import {useRouter} from "vue-router";
+    import axios from 'axios'
 
     const user = ref({});
     const router = useRouter();
 
     user.value = JSON.parse(localStorage.getItem('user'));
     const logout = () => {
-        window.localStorage.clear();
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.clear();
-        router.push({ path: '/login' });
+
+        axios.post('/api/logout',{  email: user.value.email }).then(response => {
+            console.log(response);
+            window.localStorage.clear();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            localStorage.clear();
+            router.push({ path: '/login' });
+        });
     };
 </script>
 

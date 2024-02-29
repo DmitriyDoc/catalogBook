@@ -70,4 +70,11 @@ class AuthController extends Controller
     public function user(Request $request){
         return $request->user();
     }
+    public function logout(Request $request){
+        $user = User::where('email', $request->email)->firstOrFail();
+        $user->tokens()->delete();
+        return [
+            'message' => 'Пользователь вышел из системы!'
+        ];
+    }
 }

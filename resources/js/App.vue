@@ -5,7 +5,6 @@
             class="el-menu-demo"
             mode="horizontal"
             :ellipsis="false"
-            @select="handleSelect"
         >
             <el-menu-item index="0">
                 <a href="/"><img
@@ -30,8 +29,9 @@
         <router-view> </router-view>
     </div>
 </template>
+
 <script setup>
-    import {ref, computed, onMounted} from 'vue'
+    import {ref, computed, onMounted, onUpdated} from 'vue'
     import { RouterLink } from 'vue-router'
     import logoSrc from "@/images/logo.jpg";
     import { storeToRefs } from 'pinia';
@@ -41,23 +41,24 @@
     const { categories } = storeToRefs(categoriesStore);
 
     const loggedIn = ref(false);
-    const activeIndex = ref('1')
+    const activeIndex = ref('1');
+    const auth = computed(() => loggedIn.value);
 
-    const handleSelect = (key, keyPath) => {
-        console.log(key, keyPath)
-    }
+    // const handleSelect = (key, keyPath) => {
+    //     console.log(key, keyPath)
+    // }
     const checkUser = () => {
         const user = localStorage.getItem('user');
         if (user) {
             loggedIn.value = true;
         }
     }
-    const auth = computed(() => loggedIn.value);
 
-    onMounted( async () => {
+    onMounted(  () => {
         checkUser();
         categoriesStore.getCategories();
     });
+
 </script>
 <style>
     .flex-grow {
