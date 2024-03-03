@@ -29,10 +29,9 @@ export const useBooksStore = defineStore('BooksStore',() => {
             'content-type': 'multipart/form-data'
         }
     }
-
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
     const addBook = () => {
         try {
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/books/add', book.data, config)
                     .then(response => {
@@ -80,7 +79,6 @@ export const useBooksStore = defineStore('BooksStore',() => {
     }
     const updateBook = (updatedBook) => {
         try {
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/books/update', {
                     title: updatedBook.value.title,
@@ -104,7 +102,6 @@ export const useBooksStore = defineStore('BooksStore',() => {
         } finally {}
     }
     const removeBook = async (id,index) => {
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.delete('/api/books/del',{ data: { id: id } })
                 .then(response => {

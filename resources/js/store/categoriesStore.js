@@ -16,10 +16,9 @@ export const useCategoriesStore = defineStore('categoriesStore',() => {
     const categories = ref();
     const currentCategory = ref({});
     const errorsCategory = ref({});
-
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
     const addCategory = () => {
         try {
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/categories/add', category.data)
                     .then(response => {
@@ -71,7 +70,6 @@ export const useCategoriesStore = defineStore('categoriesStore',() => {
     }
     const updateCategory = (updateCategory) => {
         try {
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/categories/update', {
                     title: updateCategory.value.title,
@@ -92,7 +90,6 @@ export const useCategoriesStore = defineStore('categoriesStore',() => {
         } finally {}
     }
     const removeCategory = async (id,index) => {
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.delete('/api/categories/del',{ data: { id: id } })
                 .then(response => {

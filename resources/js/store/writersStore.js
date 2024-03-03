@@ -21,10 +21,10 @@ export const useWritersStore = defineStore('writersStore',() => {
     };
     const writer = reactive({ data: initialWriter });
     const errorsWriter = ref({});
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
     const addWriter = () => {
         try {
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/writers/add', writer.data)
                     .then(response => {
@@ -69,7 +69,6 @@ export const useWritersStore = defineStore('writersStore',() => {
     }
     const updateWriter = (updatedWriter) => {
         try {
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/writers/update', {
                     name: updatedWriter.value.name,
@@ -91,7 +90,6 @@ export const useWritersStore = defineStore('writersStore',() => {
         } finally {}
     }
     const removeWriter = async (id,index) => {
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.delete('/api/writers/del',{ data: { id: id } })
                 .then(response => {
