@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.min.css"
 import { createApp } from 'vue';
 import { createPinia } from "pinia";
 import App from './App.vue';
@@ -9,3 +10,4 @@ import router from './routes'
 
 
 createApp(App).use(createPinia()).use(router).use(VueAxios, axios).use(ElementPlus).mount('#app');
+//import "bootstrap/dist/js/bootstrap.js"
