@@ -5,16 +5,9 @@
             <AsideAdmin/>
             <el-main>
                 <div class="row">
-                    <div class="mb-4">
-                        <el-pagination
-                            v-model:current-page="currentPage"
-                            :disabled="disabled"
-                            :background="background"
-                            layout=" prev, pager, next"
-                            :total="totalCount"
-                            @current-change="handleCurrentChange"
-                        />
-                    </div>
+
+                    <BookPagination/>
+
                     <el-table :data="books.data" style="width: 100%">
                         <el-table-column label="Индекс" type="index" width="80"/>
                         <el-table-column prop="cover" label="Обложка" width="90" >
@@ -65,6 +58,7 @@
 </template>
 
 <script setup>
+    import BookPagination from "../components/BookPagination.vue";
     import AsideAdmin from "./AsideAdmin.vue";
     import { Delete } from '@element-plus/icons-vue';
     import { ref } from "@vue/reactivity";
@@ -75,10 +69,9 @@
     import { ElMessage } from "element-plus";
 
     const booksStore = useBooksStore();
-    const { books, currentBook, errorsBook, currentPage, totalCount, } = storeToRefs( booksStore );
+    const { books, currentBook, errorsBook } = storeToRefs( booksStore );
     const dialogTableVisible = ref(false);
-    const background = ref(true);
-    const disabled = ref(false);
+
     const handleRemove = (id,index) => {
         popupWarning(id,index)
     }
@@ -89,10 +82,7 @@
     const handleEdit = (id) => {
         booksStore.getBookById(id);
     }
-    const handleCurrentChange = (val) => {
-        booksStore.updateCurrentPage(val);
-        booksStore.getBooks();
-    }
+
     const popupWarning = (id,index) => {
         ElMessageBox.confirm(`Вы действительно хотите удалить книгу навсегда? ID ${id}`, 'ПРЕДУПРЕЖДЕНИЕ', {
             confirmButtonText: 'OK',
