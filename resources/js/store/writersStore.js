@@ -40,7 +40,7 @@ export const useWritersStore = defineStore('writersStore',() => {
             console.log('error', e);
         } finally {}
     }
-    const getWriters = async () =>{
+    const getWriters = () =>{
         try {
             axios.get('/api/writers/'
                 +'?page=' + state.value.page
@@ -56,7 +56,7 @@ export const useWritersStore = defineStore('writersStore',() => {
             console.log('error',e);
         } finally {}
     }
-    const getWriterById = async (id) =>{
+    const getWriterById = (id) =>{
         try {
             axios.get('/api/writers/show/' + id
             ).then((response) => {
@@ -89,7 +89,7 @@ export const useWritersStore = defineStore('writersStore',() => {
             console.log('error', e);
         } finally {}
     }
-    const removeWriter = async (id,index) => {
+    const removeWriter = (id,index) => {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.delete('/api/writers/del',{ data: { id: id } })
                 .then(response => {

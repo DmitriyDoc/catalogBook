@@ -8,12 +8,13 @@ export const useBooksStore = defineStore('BooksStore',() => {
     const token = localStorage.getItem('token');
     const books = ref({});
     const currentBook = ref({});
-    const searchQuery = ref('');
     const paginatorActivity = ref(false);
     const totalCount = ref(0);
+    const searchQuery = ref('');
     const state = ref({
         page: 1,
         size: 5,
+        search: '',
     });
     const currentPage = ref(state.value.page);
     const initialBook = {
@@ -50,17 +51,16 @@ export const useBooksStore = defineStore('BooksStore',() => {
 
     const getBooks = async () =>{
         try {
-            axios.get('/api/books/'
+            const { data } = await axios.get('/api/books/'
                 +'?page=' + state.value.page
                 +'&size=' + state.value.size
                 +'&search=' + searchQuery.value
-            ).then((response) => {
-                books.value = response.data;
-                totalCount.value = response.data.total;
-                if (!response.data.data.length){
-                    paginatorActivity.value = true;
-                }
-            });
+            );
+            books.value = data;
+            totalCount.value = data.total;
+            if (!data.data.length){
+                paginatorActivity.value = true;
+            }
         } catch (e) {
             error.value = e;
             console.log('error',e);
@@ -68,10 +68,8 @@ export const useBooksStore = defineStore('BooksStore',() => {
     }
     const getBookById = async (id) =>{
         try {
-            axios.get('/api/books/show/' + id
-            ).then((response) => {
-                currentBook.value = response.data;
-            });
+            const { data } = await axios.get('/api/books/show/' + id);
+            currentBook.value = data;
         } catch (e) {
             error.value = e;
             console.log('error',e);
@@ -101,7 +99,7 @@ export const useBooksStore = defineStore('BooksStore',() => {
             console.log('error', e);
         } finally {}
     }
-    const removeBook = async (id,index) => {
+    const removeBook = (id,index) => {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.delete('/api/books/del',{ data: { id: id } })
                 .then(response => {

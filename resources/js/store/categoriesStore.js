@@ -57,7 +57,7 @@ export const useCategoriesStore = defineStore('categoriesStore',() => {
         } finally {}
     }
 
-    const getCategoryById = async (id) =>{
+    const getCategoryById = (id) =>{
         try {
             axios.get('/api/categories/show/' + id
             ).then((response) => {
@@ -89,7 +89,7 @@ export const useCategoriesStore = defineStore('categoriesStore',() => {
             console.log('error', e);
         } finally {}
     }
-    const removeCategory = async (id,index) => {
+    const removeCategory = (id,index) => {
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.delete('/api/categories/del',{ data: { id: id } })
                 .then(response => {
