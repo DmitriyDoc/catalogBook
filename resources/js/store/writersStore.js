@@ -12,6 +12,7 @@ export const useWritersStore = defineStore('writersStore',() => {
     const paginatorActivity = ref(false);
     const state = ref({
         page: 1,
+        size: 5,
     });
     const currentPage = ref(state.value.page);
     const initialWriter = {
@@ -40,7 +41,7 @@ export const useWritersStore = defineStore('writersStore',() => {
             console.log('error', e);
         } finally {}
     }
-    const getWriters = () =>{
+    const getItems = () =>{
         try {
             axios.get('/api/writers/'
                 +'?page=' + state.value.page
@@ -77,7 +78,7 @@ export const useWritersStore = defineStore('writersStore',() => {
                     id: updatedWriter.value.id,
                 })
                     .then(response => {
-                        getWriters();
+                        getItems();
                         popupMessage(response.data.success);
                     })
                     .catch(function (error) {
@@ -103,6 +104,9 @@ export const useWritersStore = defineStore('writersStore',() => {
     const updateCurrentPage = (page) => {
         state.value.page = page;
     }
+    const updatePageSize = (size) => {
+        state.value.size = size;
+    }
     const popupMessage = (message) => {
         ElMessage({
             type: 'success',
@@ -118,10 +122,11 @@ export const useWritersStore = defineStore('writersStore',() => {
         totalCount,
         paginatorActivity,
         addWriter,
-        getWriters,
+        getItems,
         getWriterById,
         updateWriter,
         removeWriter,
         updateCurrentPage,
+        updatePageSize,
     }
 });

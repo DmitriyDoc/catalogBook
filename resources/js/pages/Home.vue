@@ -24,21 +24,20 @@
         </el-form>
     </el-row>
 
-    <BookPagination/>
+    <BookPagination :store="booksStore" :currentPage="currentPage" :paginatorActivity="paginatorActivity" :totalCount="totalCount"/>
 
     <BookList :books=books.data :currentBook=currentBook :handleCurrentBook="handleCurrentBook"/>
 </template>
 
 <script setup>
-    import BookList from "../components/BookList.vue";
+    import BookList from "../components/BookSingle.vue";
     import BookPagination from "../components/BookPagination.vue";
     import { ref, reactive, onMounted } from "vue";
-    import { RouterLink } from 'vue-router'
     import { storeToRefs } from 'pinia';
     import { useBooksStore } from "../store/booksStore";
 
     const booksStore = useBooksStore();
-    const { books, currentBook } = storeToRefs( booksStore );
+    const { books, currentBook, currentPage, totalCount, paginatorActivity } = storeToRefs( booksStore );
     const formRef = ref();
     const queryValidateForm = reactive({
         query: '',
@@ -49,7 +48,7 @@
         formEl.validate((valid) => {
             if (valid) {
                 booksStore.updateSearchQuery( queryValidateForm.query );
-                booksStore.getBooks();
+                booksStore.getItems();
             } else {
                 console.log('error submit!')
                 return false
@@ -60,14 +59,14 @@
         if (!formEl) return
         formEl.resetFields();
         booksStore.updateSearchQuery( '' );
-        booksStore.getBooks();
+        booksStore.getItems();
     }
     const handleCurrentBook = (id) => {
         booksStore.getBookById(id);
     }
 
     onMounted( async () => {
-        booksStore.getBooks();
+        booksStore.getItems();
     });
 
 </script>

@@ -7,13 +7,13 @@
             <el-card shadow="always"> {{currentCategory.description}} </el-card>
         </el-col>
         <el-col>
-            <BookList :books=currentCategory.books :currentBook=currentBook :handleCurrentBook="handleCurrentBook"/>
+            <BookSingle :books=currentCategory.books :currentBook=currentBook :handleCurrentBook="handleCurrentBook"/>
         </el-col>
     </el-row>
 </template>
 
 <script setup>
-    import BookList from "../components/BookList.vue";
+    import BookSingle from "../components/BookSingle.vue";
     import { ref, onMounted, watch } from "vue";
     import { storeToRefs } from 'pinia';
     import { useCategoriesStore } from "../store/categoriesStore";

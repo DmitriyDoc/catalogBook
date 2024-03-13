@@ -5,16 +5,9 @@
             <AsideAdmin/>
             <el-main>
                 <div class="row">
-                    <div class="mb-4">
-                        <el-pagination
-                            v-model:current-page="currentPage"
-                            :disabled="disabled"
-                            :background="background"
-                            layout=" prev, pager, next"
-                            :total="totalCount"
-                            @current-change="handleCurrentChange"
-                        />
-                    </div>
+
+                    <BookPagination :store="writersStore" :currentPage="currentPage" :paginatorActivity="paginatorActivity" :totalCount="totalCount"/>
+
                     <el-table :data="writers.data" style="width: 100%">
                         <el-table-column label="Индекс" type="index" width="80"/>
                         <el-table-column prop="id" label="Id" width="80" />
@@ -57,6 +50,7 @@
 
 <script setup>
     import AsideAdmin from "./AsideAdmin.vue";
+    import BookPagination from "../components/BookPagination.vue";
     import { Delete } from '@element-plus/icons-vue';
     import { ref } from "@vue/reactivity";
 
@@ -69,7 +63,7 @@
     const { writers, currentWriter, errorsWriter, currentPage, totalCount, paginatorActivity } = storeToRefs( writersStore );
     const dialogTableVisible = ref(false);
     const background = ref(true);
-    const disabled = ref(paginatorActivity);
+    //const disabled = ref(paginatorActivity);
     const handleRemove = (id,index) => {
         popupWarning(id,index)
     }
@@ -80,10 +74,10 @@
     const handleEdit = (id) => {
         writersStore.getWriterById(id);
     }
-    const handleCurrentChange = (val) => {
-        writersStore.updateCurrentPage(val);
-        writersStore.getWriters();
-    }
+    // const handleCurrentChange = (val) => {
+    //     writersStore.updateCurrentPage(val);
+    //     writersStore.getWriters();
+    // }
     const popupWarning = (id,index) => {
         ElMessageBox.confirm(`Вы действительно хотите удалить автора под ID ${id} навсегда? `, 'ПРЕДУПРЕЖДЕНИЕ', {
             confirmButtonText: 'OK',
@@ -103,7 +97,7 @@
         })
     }
     onMounted( async () => {
-        writersStore.getWriters();
+        writersStore.getItems();
     });
 </script>
 <style>

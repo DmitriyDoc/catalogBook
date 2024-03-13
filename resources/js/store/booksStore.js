@@ -49,7 +49,7 @@ export const useBooksStore = defineStore('BooksStore',() => {
         } finally {}
     }
 
-    const getBooks = async () =>{
+    const getItems = async () =>{
         try {
             const { data } = await axios.get('/api/books/'
                 +'?page=' + state.value.page
@@ -87,7 +87,7 @@ export const useBooksStore = defineStore('BooksStore',() => {
                     id: updatedBook.value.id,
                     }, config)
                     .then(response => {
-                        getBooks();
+                        getItems();
                         popupMessage(response.data.success);
                     })
                     .catch(function (error) {
@@ -138,7 +138,7 @@ export const useBooksStore = defineStore('BooksStore',() => {
         updateSearchQuery,
         updateCurrentPage,
         updatePageSize,
-        getBooks,
+        getItems,
         addBook,
         getBookById,
     }

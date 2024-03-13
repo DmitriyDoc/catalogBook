@@ -1,8 +1,7 @@
 <template>
-
     <div class="mb-4">
         <el-pagination
-            v-model:current-page="currentPage"
+            v-on:current-page="currentPage"
             v-model:page-size="pageSize"
             :page-sizes="[5, 10]"
             :disabled="paginatorActivity"
@@ -17,21 +16,25 @@
 
 <script setup>
     import {ref} from "vue";
-    import { useBooksStore } from "../store/booksStore";
-    import { storeToRefs } from 'pinia';
 
-    const booksStore = useBooksStore();
-    const { currentPage, totalCount, paginatorActivity } = storeToRefs( booksStore );
     const background = ref(true);
     const pageSize = ref(5);
+    const props = defineProps({
+        store: Object,
+        currentPage: Number,
+        paginatorActivity: Boolean,
+        totalCount: Number
+    })
+
 
     const handleCurrentChange = (val) => {
-        booksStore.updateCurrentPage(val);
-        booksStore.getBooks();
+        props.store.updateCurrentPage(val);
+        props.store.getItems();
     }
     const handleSizeChange = (page) => {
         pageSize.value = page;
-        booksStore.updatePageSize(page);
+        props.store.updatePageSize(page);
+        props.store.getItems();
     }
 </script>
 

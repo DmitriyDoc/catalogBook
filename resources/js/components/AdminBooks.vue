@@ -6,7 +6,7 @@
             <el-main>
                 <div class="row">
 
-                    <BookPagination/>
+                    <BookPagination :store="booksStore" :currentPage="currentPage" :paginatorActivity="paginatorActivity" :totalCount="totalCount"/>
 
                     <el-table :data="books.data" style="width: 100%">
                         <el-table-column label="Индекс" type="index" width="80"/>
@@ -58,8 +58,8 @@
 </template>
 
 <script setup>
-    import BookPagination from "../components/BookPagination.vue";
     import AsideAdmin from "./AsideAdmin.vue";
+    import BookPagination from "../components/BookPagination.vue";
     import { Delete } from '@element-plus/icons-vue';
     import { ref } from "@vue/reactivity";
 
@@ -69,7 +69,7 @@
     import { ElMessage } from "element-plus";
 
     const booksStore = useBooksStore();
-    const { books, currentBook, errorsBook } = storeToRefs( booksStore );
+    const { books, currentBook, errorsBook, currentPage, paginatorActivity, totalCount } = storeToRefs( booksStore );
     const dialogTableVisible = ref(false);
 
     const handleRemove = (id,index) => {
@@ -102,7 +102,7 @@
         })
     }
     onMounted( async () => {
-        booksStore.getBooks();
+        booksStore.getItems();
     });
 </script>
 <style>
