@@ -59,7 +59,7 @@
 
 <script setup>
     import AsideAdmin from "./AsideAdmin.vue";
-    import BookPagination from "../components/BookPagination.vue";
+    import BookPagination from "./ui/BookPagination.vue";
     import { Delete } from '@element-plus/icons-vue';
     import { ref } from "@vue/reactivity";
 

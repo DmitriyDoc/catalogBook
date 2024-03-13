@@ -50,7 +50,7 @@
 
 <script setup>
     import AsideAdmin from "./AsideAdmin.vue";
-    import BookPagination from "../components/BookPagination.vue";
+    import BookPagination from "./ui/BookPagination.vue";
     import { Delete } from '@element-plus/icons-vue';
     import { ref } from "@vue/reactivity";
 
@@ -63,7 +63,7 @@
     const { writers, currentWriter, errorsWriter, currentPage, totalCount, paginatorActivity } = storeToRefs( writersStore );
     const dialogTableVisible = ref(false);
     const background = ref(true);
-    //const disabled = ref(paginatorActivity);
+
     const handleRemove = (id,index) => {
         popupWarning(id,index)
     }
@@ -74,10 +74,6 @@
     const handleEdit = (id) => {
         writersStore.getWriterById(id);
     }
-    // const handleCurrentChange = (val) => {
-    //     writersStore.updateCurrentPage(val);
-    //     writersStore.getWriters();
-    // }
     const popupWarning = (id,index) => {
         ElMessageBox.confirm(`Вы действительно хотите удалить автора под ID ${id} навсегда? `, 'ПРЕДУПРЕЖДЕНИЕ', {
             confirmButtonText: 'OK',

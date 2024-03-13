@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-    import BookSingle from "../components/BookSingle.vue";
+    import BookSingle from "../components/ui/BookSingle.vue";
     import { ref, onMounted, watch } from "vue";
     import { storeToRefs } from 'pinia';
     import { useCategoriesStore } from "../store/categoriesStore";

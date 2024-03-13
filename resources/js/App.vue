@@ -7,11 +7,13 @@
             :ellipsis="false"
         >
             <el-menu-item index="0">
-                <a href="/"><img
-                    style="width: 50px"
-                    :src="logoSrc"
-                    alt="Логотип"
-                /></a>
+                <a href="/">
+                    <img
+                        style="width: 50px"
+                        :src="logo"
+                        alt="Логотип"
+                    />
+                </a>
             </el-menu-item>
             <div class="flex-grow" />
             <el-menu-item index="1"><router-link :to="{ name: 'Home' }"  class="nav-item nav-link">Главная</router-link></el-menu-item>
@@ -31,9 +33,10 @@
 </template>
 
 <script setup>
-    import {ref, computed, onMounted, onUpdated} from 'vue'
+    import { ref, computed, onMounted } from 'vue'
     import { RouterLink } from 'vue-router'
-    import logoSrc from "@/images/logo.jpg";
+    import logo from "@/images/logo.jpg";
+    import { ElMessage } from "element-plus";
     import { storeToRefs } from 'pinia';
     import { useCategoriesStore } from "./store/categoriesStore";
 
@@ -44,12 +47,9 @@
     const activeIndex = ref('1');
     const auth = computed(() => loggedIn.value);
 
-    // const handleSelect = (key, keyPath) => {
-    //     console.log(key, keyPath)
-    // }
     const checkUser = () => {
         const user = localStorage.getItem('user');
-        if (user) {
+        if ( user ) {
             loggedIn.value = true;
         }
     }
