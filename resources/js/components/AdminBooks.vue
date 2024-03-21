@@ -2,7 +2,9 @@
     <div class="common-layout">
         <h1 class="text-center">Редактирование книг</h1>
         <el-container>
+
             <AsideAdmin/>
+
             <el-main>
                 <div class="row">
 
@@ -30,22 +32,22 @@
                                 <form @submit.prevent="submit" enctype="multipart/form-data" class="text-center">
                                     <span class="text-danger" v-if="errorsBook.title">{{errorsBook.title[0]}}</span>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text" >Название</span>
-                                        <input type="text" v-model="currentBook.title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <span class="input-group-text" >Год издания</span>
+                                        <input type="text" v-model="currentBook.title" class="form-control"  aria-describedby="inputGroup-sizing-default">
                                     </div>
-                                    <span class="text-danger" v-if="errorsBook.year">{{errorsBook.year[0]}}</span>
+                                    <span class="text-danger" v-if="errorsBook.title">{{errorsBook.title[0]}}</span>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" >Год издания</span>
-                                        <input type="text" v-model="currentBook.year" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" v-model="currentBook.year" class="form-control"  aria-describedby="inputGroup-sizing-default">
                                     </div>
                                     <span class="text-danger" v-if="errorsBook.description">{{errorsBook.description[0]}}</span>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" >Описание</span>
-                                        <textarea type="text" v-model="currentBook.description" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"></textarea>
+                                        <textarea type="text" v-model="currentBook.description" class="form-control" aria-describedby="inputGroup-sizing-default"></textarea>
                                     </div>
                                     <span class="text-danger" v-if="errorsBook.image">{{errorsBook.image[0]}}</span>
                                     <div class="input-group mb-3">
-                                        <input type="file" @input="currentBook.image = $event.target.files[0]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="file" @input="currentBook.image = $event.target.files[0]" class="form-control" aria-describedby="inputGroup-sizing-default">
                                     </div>
                                     <button @click="handleUpdate()" class="btn btn-primary" type="submit">Обновить книгу</button>
                                 </form>
